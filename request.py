@@ -27,7 +27,7 @@ def RequestModel(cls):
   if hasattr(cls, 'post_fields'):
     cls.post_parser = reqparse.RequestParser()
     for field, field_type in cls.post_fields.iteritems():
-      cls.post_parser.add_argument(field, type=field_type, store_missing=False)
+      cls.post_parser.add_argument(field, required=True, type=field_type, store_missing=False)
     cls.post = classmethod(POST)
 
   return cls
