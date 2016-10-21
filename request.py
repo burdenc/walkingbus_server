@@ -56,9 +56,9 @@ def GET(row):
   return d
 
 def PATCH(row):
-  args = model.patch_parser.parse_args()
+  args = row.patch_parser.parse_args()
   d = {}
-  for field in model.put_fields:
+  for field in row.put_fields:
     if field in args:
       setattr(row, field, args[field])
 
