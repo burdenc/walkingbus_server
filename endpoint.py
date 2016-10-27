@@ -3,6 +3,7 @@ from flask_restful import Resource
 
 import auth
 import request
+import server as s
 
 from child import Child
 from parent import Parent
@@ -45,14 +46,14 @@ class RegisterEndpoint(Resource):
     # User already exists
     user = Parent.query.filter_by(google_id=user_id).first()
     if user:
-      return GET(user), 202
+      return user.get(), 202
 
     # User must have verified email
     if not decrypted_token['email_verified']:
       abort(403)
 
     new_parent = Parent(user_id, decrypted_token['name'], decrypted_token['email'])
-    g.db.session.add(new_parent)
-    g.db.session.commit()
+    s.db.session.add(new_parent)
+    s.db.session.commit()
 
-    return GET(new_parent)
+    return new_parent.get()
