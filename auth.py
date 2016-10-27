@@ -7,11 +7,14 @@ import request
 import child
 import parent
 
+GOOGLE_SERVER_ID = '378160880549-57b3ckh3mjj3gja4hsqrbanm23pl8gcd.apps.googleusercontent.com'
+GOOGLE_CLIENT_ID = '378160880549-m1ue0av70p8k2inu3uhilkgqsafohvck.apps.googleusercontent.com'
+
 def decrypt_google_token(token):
   if token == u'IAMADUMMY':
     return {'sub' : u'117926215976770287007'}
   try:
-    idinfo = client.verify_id_token(token, GOOGLE_CLIENT_ID)
+    idinfo = client.verify_id_token(token, GOOGLE_SERVER_ID)
     # If multiple clients access the backend server:
     if idinfo['aud'] not in [GOOGLE_CLIENT_ID]:
       raise crypt.AppIdentityError("Unrecognized client.")
