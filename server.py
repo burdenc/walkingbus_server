@@ -3,6 +3,7 @@ from flask import Flask, abort, redirect, url_for, g
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Resource, Api
 
+DEBUG = 'debug' in sys.argv
 
 app = Flask(__name__)
 api = Api(app)
@@ -25,7 +26,8 @@ def main():
     '/register/' : endpoint.RegisterEndpoint
   }
   endpoint.register_endpoints(api, endpoints_dict)
-  app.run(host='0.0.0.0', port=8080, debug=True)
+  port = 8080 if DEBUG else 80
+  app.run(host='0.0.0.0', port=port, debug=DEBUG)
 
 if __name__ == "__main__":
   main()
