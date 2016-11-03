@@ -3,6 +3,11 @@ import server as s
 
 from group import Group
 
+assoc_table = s.db.Table('parent_to_group',
+  s.db.Column('parent_id', s.db.Integer, s.db.ForeignKey('parent.id')),
+  s.db.Column('group_id', s.db.Integer, s.db.ForeignKey('group.id'))
+)
+
 @request.RequestModel
 class Parent(s.db.Model):
   id = s.db.Column(s.db.Integer, primary_key=True)
@@ -10,7 +15,7 @@ class Parent(s.db.Model):
   name = s.db.Column(s.db.String(80), unique=True)
   email = s.db.Column(s.db.String(120), unique=True)
   children = s.db.relationship('Child')
-  groups = s.db.relationship('Group', backref='parent')
+  groups = s.db.relationship('Group', secondary=assoc_table, backref='parents')
 
   get_fields = ['id', 'name', 'email', 'children', 'groups']
 

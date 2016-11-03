@@ -33,6 +33,26 @@ class ChildIdEndpoint(auth.AuthChildResource):
     g.child.patch()
     return g.child.get()
 
+class GroupEndpoint(auth.AuthUserResource):
+  def post(self):
+    group = Group()
+    s.db.add(group)
+    g.user.groups.append(group)
+    s.db.commit()
+    return group.get()
+
+class GroupIdEndpoint(auth.AuthUserResource):
+  def get(self, id):
+    group = Group.query.get(id)
+    if not group or group not in g.user.groups:
+      abort(401)
+
+    return group.get()
+
+'''class TimeslotEndpoin(auth.AuthUserResource):
+  def post(self, group_id):
+''' 
+
 class RegisterEndpoint(Resource):
   def post(self):
     args = request.auth_parser.parse_args()

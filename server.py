@@ -28,7 +28,7 @@ def main():
   }
   endpoint.register_endpoints(api, endpoints_dict)
   port = 8080 if DEBUG else 80
-  app.run(host='0.0.0.0', port=port, debug=DEBUG)
+  app.run(host='0.0.0.0', port=port, debug=True)
 
 if __name__ == "__main__":
   main()
